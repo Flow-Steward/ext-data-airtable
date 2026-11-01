@@ -7,7 +7,7 @@ Choose a project connection and pass its ID as `connection_ref`. Account/project
 
 Only the fixed provider HTTPS origin is reachable. DNS is pinned with SDK 0.4 and every address must be public, including when host private networking is allowed. Redirect handling belongs to the SDK pinned opener. Caller URLs are rejected. Credentials are headers only; provider errors and bodies are not reflected in errors.
 
-Every invocation makes one HTTP attempt within a shared 1–30 second deadline. No retries or automatic page loops. A write dispatched before timeout, malformed/partial response, oversized result or HTTP error reports `timeout_unknown`; inspect provider state before reconciling or retrying. Effect claims do not create provider-side deduplication. Output is capped at 480 KiB. JSON nesting is capped at 16; integers outside ±9007199254740991 must be strings.
+Every invocation makes one HTTP attempt within a shared 1–30 second Linux wall-clock deadline. A restored SIGALRM timer bounds DNS, response headers, body reads and decoding; the subprocess runs on its main thread. No retries or automatic page loops. A write dispatched before timeout, malformed/partial response, oversized result or HTTP error reports `timeout_unknown`; inspect provider state before reconciling or retrying. Effect claims do not create provider-side deduplication. Output is capped at 480 KiB. JSON nesting is capped at 16; integers outside ±9007199254740991 must be strings.
 
 ## Operations
 
@@ -20,11 +20,11 @@ Connection config: `base_id` (`app` plus 14 alphanumerics), optional `request_ti
 
 Uses fixed `https://api.airtable.com/v0/{base_id}/{table}`. CRUD covers records, not base schema management.
 
-Official API contracts checked 2026-11-01: [list](https://airtable.com/developers/web/api/list-records.md), [create](https://airtable.com/developers/web/api/create-records.md), [update/upsert](https://airtable.com/developers/web/api/update-multiple-records.md), [delete](https://airtable.com/developers/web/api/delete-multiple-records.md). Upsert uses PATCH `performUpsert.fieldsToMergeOn`.
+Official API contracts checked 2026-11-01: [list](https://airtable.com/developers/web/api/list-records.md), [create](https://airtable.com/developers/web/api/create-records.md), [update/upsert](https://airtable.com/developers/web/api/update-multiple-records.md), [delete](https://airtable.com/developers/web/api/delete-multiple-records.md). Upsert uses PATCH `performUpsert.fieldsToMergeOn`. HTTP-200 `details.partialSuccess` and permission-redacted write results fail with `partial_write`, a sanitized enum-only `provider_details`, and `timeout_unknown`; the adapter does not silently claim a completed update.
 
 ## Verification and release
 
-Tests use mocked pinned HTTP and validate CRUD requests, pagination, input limits, credentials, project context, effect claims, write ambiguity and public DNS enforcement. No cloud credentials were supplied: live provider behavior is not verified.
+Tests use mocked pinned HTTP and validate CRUD requests, pagination, input limits, credentials, project context, effect claims, write ambiguity, complete wall-clock deadlines and public DNS enforcement. The canonical Apache-2.0 license bytes are regression checked. No cloud credentials were supplied: live provider behavior is not verified.
 
 From a Flow Steward checkout run `lint.sh --checks extension-static,extension-tests --extension-root <checkout>` in the disposable audit container. Development dependencies install offline from SDK dev wheels plus audit image site packages.
 

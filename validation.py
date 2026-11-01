@@ -10,6 +10,7 @@ class Failure(Exception):
         super().__init__(message)
         self.code = code
         self.dispatched = dispatched
+        self.details: dict[str, object] | None = None
 
 
 def require(condition, message, *, code="invalid_payload"):

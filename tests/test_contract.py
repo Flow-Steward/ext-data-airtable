@@ -316,3 +316,94 @@ def test_bad_base_rejected(network):
     p["action"]["target"]["connection"]["config"]["base_id"] = "app/../../attacker"
     assert main.handle(p)["error_code"] == "invalid_connection"
     network[0].assert_not_called()
+
+
+@pytest.mark.parametrize("phase", ["dns", "body"])
+def test_total_wall_clock_deadline(phase, network):
+    import time
+    import signal
+
+    p = write_payload()
+    p["action"]["target"]["connection"]["config"]["request_timeout_seconds"] = 1
+    previous = signal.getsignal(signal.SIGALRM)
+    if phase == "dns":
+
+        def slow_dns(*args, **kwargs):
+            time.sleep(3)
+            return ["1.1.1.1"]
+
+        network[0].side_effect = slow_dns
+    else:
+        response = Response(provider_value())
+
+        def drip(n):
+            time.sleep(3)
+            return response.raw
+
+        network[1].return_value = response
+        network[1].return_value.read = drip
+    started = time.monotonic()
+    r = main.handle(p)
+    elapsed = time.monotonic() - started
+    assert elapsed < 1.8
+    assert r["error_code"] == "timeout"
+    assert r["external_effect_status"] == ("not_applied" if phase == "dns" else "timeout_unknown")
+    assert signal.getsignal(signal.SIGALRM) == previous
+    assert signal.getitimer(signal.ITIMER_REAL) == (0.0, 0.0)
+
+
+def test_canonical_apache_license():
+    import hashlib
+    from pathlib import Path
+
+    assert (
+        hashlib.sha256((Path(__file__).parents[1] / "LICENSE").read_bytes()).hexdigest()
+        == "58d1e17ffe5109a7ae296caafcadfdbe6a7d176f0bc4ab01e12a689b0499d8bd"
+    )
+
+
+@pytest.mark.parametrize("name", ["update_records", "upsert_records"])
+@pytest.mark.parametrize("message", ["partialSuccess", "cellsRedactedDueToLimitedPermissions"])
+def test_provider_partial_success_is_ambiguous_write(name, message, network):
+    response = provider_value()
+    response["details"] = {
+        "message": message,
+        "reasons": ["attachmentsFailedUploading", "test-secret"],
+    }
+    network[1].return_value = Response(response)
+    p = envelope(name, records=[{"id": "recABCDEFGHIJKLMN", "fields": {"Name": "hello"}}])
+    if name == "upsert_records":
+        p["action"]["input"]["merge_fields"] = ["Name"]
+    r = main.handle(p)
+    assert not r["ok"]
+    assert r["error_code"] == "partial_write"
+    assert r["external_effect_status"] == "timeout_unknown"
+    assert not r["retryable"]
+    assert r["provider_details"] == {"message": message, "reasons": ["attachmentsFailedUploading"]}
+    assert "test-secret" not in json.dumps(r)
+    assert network[1].call_count == 1
+
+
+def test_previous_alarm_timer_is_restored():
+    import signal
+    from deadline import operation_deadline
+
+    original = signal.getsignal(signal.SIGALRM)
+    old_timer = signal.getitimer(signal.ITIMER_REAL)
+
+    def previous(signum, frame):
+        raise AssertionError("Unrelated timer fired unexpectedly")
+
+    try:
+        signal.signal(signal.SIGALRM, previous)
+        signal.setitimer(signal.ITIMER_REAL, 5, 2)
+        with operation_deadline(1):
+            pass
+        remaining, interval = signal.getitimer(signal.ITIMER_REAL)
+        assert 4 < remaining <= 5
+        assert interval == 2
+        assert signal.getsignal(signal.SIGALRM) == previous
+    finally:
+        signal.setitimer(signal.ITIMER_REAL, 0)
+        signal.signal(signal.SIGALRM, original)
+        signal.setitimer(signal.ITIMER_REAL, *old_timer)

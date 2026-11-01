@@ -2,7 +2,7 @@
 
 import re
 from urllib.parse import quote, urlencode
-from validation import require, text, integer
+from validation import Failure, require, text, integer
 
 
 def record_id(value):
@@ -90,6 +90,32 @@ def prepare(name, args, config):
 
 def result(name, value, expected):
     require(isinstance(value, dict), "Invalid provider envelope.", code="invalid_provider_response")
+    if name in {"update_records", "upsert_records"} and "details" in value:
+        details = value["details"]
+        require(
+            isinstance(details, dict)
+            and details.get("message") in {"partialSuccess", "cellsRedactedDueToLimitedPermissions"}
+            and isinstance(details.get("reasons"), list),
+            "Invalid provider write details.",
+            code="invalid_provider_response",
+        )
+        allowed = {
+            "attachmentsFailedUploading",
+            "attachmentUploadRateIsTooHigh",
+            "restrictedPermissions",
+        }
+        reasons = list(
+            dict.fromkeys(
+                reason
+                for reason in details["reasons"]
+                if isinstance(reason, str) and reason in allowed
+            )
+        )
+        failure = Failure(
+            "partial_write", "Provider reported a partial or permission-redacted write."
+        )
+        failure.details = {"message": details["message"], "reasons": reasons}
+        raise failure
     rows = [value] if name == "get_record" else value.get("records")
     require(
         isinstance(rows, list) and len(rows) <= 100,

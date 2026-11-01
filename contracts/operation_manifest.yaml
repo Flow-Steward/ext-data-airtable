@@ -93,7 +93,8 @@
         "authentication_failed",
         "not_found",
         "conflict",
-        "rate_limited"
+        "rate_limited",
+        "partial_write"
       ]
     },
     {
@@ -168,7 +169,8 @@
         "authentication_failed",
         "not_found",
         "conflict",
-        "rate_limited"
+        "rate_limited",
+        "partial_write"
       ]
     },
     {
@@ -246,7 +248,8 @@
         "authentication_failed",
         "not_found",
         "conflict",
-        "rate_limited"
+        "rate_limited",
+        "partial_write"
       ]
     },
     {
@@ -324,7 +327,8 @@
         "authentication_failed",
         "not_found",
         "conflict",
-        "rate_limited"
+        "rate_limited",
+        "partial_write"
       ]
     },
     {
@@ -418,7 +422,8 @@
         "authentication_failed",
         "not_found",
         "conflict",
-        "rate_limited"
+        "rate_limited",
+        "partial_write"
       ]
     },
     {
@@ -498,7 +503,8 @@
         "authentication_failed",
         "not_found",
         "conflict",
-        "rate_limited"
+        "rate_limited",
+        "partial_write"
       ]
     }
   ]

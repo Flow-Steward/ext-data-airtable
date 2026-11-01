@@ -56,7 +56,8 @@
         "authentication_failed",
         "not_found",
         "conflict",
-        "rate_limited"
+        "rate_limited",
+        "partial_write"
       ],
       "mutates_platform": false
     },
@@ -106,7 +107,8 @@
         "authentication_failed",
         "not_found",
         "conflict",
-        "rate_limited"
+        "rate_limited",
+        "partial_write"
       ],
       "mutates_platform": false
     },
@@ -156,7 +158,8 @@
         "authentication_failed",
         "not_found",
         "conflict",
-        "rate_limited"
+        "rate_limited",
+        "partial_write"
       ],
       "mutates_platform": false
     },
@@ -206,7 +209,8 @@
         "authentication_failed",
         "not_found",
         "conflict",
-        "rate_limited"
+        "rate_limited",
+        "partial_write"
       ],
       "mutates_platform": false
     },
@@ -261,7 +265,8 @@
         "authentication_failed",
         "not_found",
         "conflict",
-        "rate_limited"
+        "rate_limited",
+        "partial_write"
       ],
       "mutates_platform": false
     },
@@ -311,7 +316,8 @@
         "authentication_failed",
         "not_found",
         "conflict",
-        "rate_limited"
+        "rate_limited",
+        "partial_write"
       ],
       "mutates_platform": false
     }
