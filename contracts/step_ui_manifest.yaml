@@ -1,0 +1,130 @@
+{
+  "forms": [
+    {
+      "operation_id": "list_records",
+      "title": "List Records",
+      "fields": [
+        {
+          "name": "table",
+          "widget_type": "textarea",
+          "label": "Table",
+          "required": true
+        },
+        {
+          "name": "page_size",
+          "widget_type": "integer",
+          "label": "Page Size",
+          "required": false
+        },
+        {
+          "name": "offset",
+          "widget_type": "textarea",
+          "label": "Offset",
+          "required": false
+        },
+        {
+          "name": "filter_by_formula",
+          "widget_type": "textarea",
+          "label": "Filter By Formula",
+          "required": false
+        }
+      ]
+    },
+    {
+      "operation_id": "get_record",
+      "title": "Get Record",
+      "fields": [
+        {
+          "name": "table",
+          "widget_type": "textarea",
+          "label": "Table",
+          "required": true
+        },
+        {
+          "name": "record_id",
+          "widget_type": "textarea",
+          "label": "Record Id",
+          "required": true
+        }
+      ]
+    },
+    {
+      "operation_id": "create_records",
+      "title": "Create Records",
+      "fields": [
+        {
+          "name": "table",
+          "widget_type": "textarea",
+          "label": "Table",
+          "required": true
+        },
+        {
+          "name": "records",
+          "widget_type": "json",
+          "label": "Records",
+          "required": true
+        }
+      ]
+    },
+    {
+      "operation_id": "update_records",
+      "title": "Update Records",
+      "fields": [
+        {
+          "name": "table",
+          "widget_type": "textarea",
+          "label": "Table",
+          "required": true
+        },
+        {
+          "name": "records",
+          "widget_type": "json",
+          "label": "Records",
+          "required": true
+        }
+      ]
+    },
+    {
+      "operation_id": "upsert_records",
+      "title": "Upsert Records",
+      "fields": [
+        {
+          "name": "table",
+          "widget_type": "textarea",
+          "label": "Table",
+          "required": true
+        },
+        {
+          "name": "records",
+          "widget_type": "json",
+          "label": "Records",
+          "required": true
+        },
+        {
+          "name": "merge_fields",
+          "widget_type": "json",
+          "label": "Merge Fields",
+          "required": true
+        }
+      ]
+    },
+    {
+      "operation_id": "delete_records",
+      "title": "Delete Records",
+      "fields": [
+        {
+          "name": "table",
+          "widget_type": "textarea",
+          "label": "Table",
+          "required": true
+        },
+        {
+          "name": "record_ids",
+          "widget_type": "json",
+          "label": "Record Ids",
+          "required": true
+        }
+      ]
+    }
+  ]
+}

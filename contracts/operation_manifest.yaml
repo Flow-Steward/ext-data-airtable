@@ -1,0 +1,505 @@
+{
+  "operations": [
+    {
+      "operation_id": "list_records",
+      "display_name": "List Records",
+      "description": "List Records in the configured database.",
+      "operation_kind": "action",
+      "workflow_visible": true,
+      "connection_type_ids": [
+        "airtable"
+      ],
+      "category": "data",
+      "inputs": [
+        {
+          "name": "connection_ref",
+          "value_type": "connection_ref",
+          "required": true,
+          "display_name": "Connection"
+        },
+        {
+          "name": "table",
+          "value_type": "text",
+          "required": true,
+          "display_name": "Table",
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          }
+        },
+        {
+          "name": "page_size",
+          "value_type": "integer",
+          "required": false,
+          "display_name": "Page Size",
+          "schema": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 100
+          }
+        },
+        {
+          "name": "offset",
+          "value_type": "text",
+          "required": false,
+          "display_name": "Offset",
+          "schema": {
+            "type": "string",
+            "maxLength": 4096
+          }
+        },
+        {
+          "name": "filter_by_formula",
+          "value_type": "text",
+          "required": false,
+          "display_name": "Filter By Formula",
+          "schema": {
+            "type": "string",
+            "maxLength": 8192
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "records",
+          "value_type": "json"
+        },
+        {
+          "name": "count",
+          "value_type": "integer"
+        },
+        {
+          "name": "offset",
+          "value_type": "text"
+        }
+      ],
+      "result_fields": [
+        "result.records",
+        "result.count",
+        "result.offset"
+      ],
+      "error_codes": [
+        "invalid_payload",
+        "invalid_connection",
+        "effect_claim_required",
+        "test_mode_suppressed",
+        "provider_unavailable",
+        "invalid_provider_response",
+        "response_too_large",
+        "network_blocked",
+        "timeout",
+        "authentication_failed",
+        "not_found",
+        "conflict",
+        "rate_limited"
+      ]
+    },
+    {
+      "operation_id": "get_record",
+      "display_name": "Get Record",
+      "description": "Get Record in the configured database.",
+      "operation_kind": "action",
+      "workflow_visible": true,
+      "connection_type_ids": [
+        "airtable"
+      ],
+      "category": "data",
+      "inputs": [
+        {
+          "name": "connection_ref",
+          "value_type": "connection_ref",
+          "required": true,
+          "display_name": "Connection"
+        },
+        {
+          "name": "table",
+          "value_type": "text",
+          "required": true,
+          "display_name": "Table",
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          }
+        },
+        {
+          "name": "record_id",
+          "value_type": "text",
+          "required": true,
+          "display_name": "Record Id",
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "records",
+          "value_type": "json"
+        },
+        {
+          "name": "count",
+          "value_type": "integer"
+        },
+        {
+          "name": "offset",
+          "value_type": "text"
+        }
+      ],
+      "result_fields": [
+        "result.records",
+        "result.count",
+        "result.offset"
+      ],
+      "error_codes": [
+        "invalid_payload",
+        "invalid_connection",
+        "effect_claim_required",
+        "test_mode_suppressed",
+        "provider_unavailable",
+        "invalid_provider_response",
+        "response_too_large",
+        "network_blocked",
+        "timeout",
+        "authentication_failed",
+        "not_found",
+        "conflict",
+        "rate_limited"
+      ]
+    },
+    {
+      "operation_id": "create_records",
+      "display_name": "Create Records",
+      "description": "Create Records in the configured database.",
+      "operation_kind": "action",
+      "workflow_visible": true,
+      "connection_type_ids": [
+        "airtable"
+      ],
+      "category": "data",
+      "inputs": [
+        {
+          "name": "connection_ref",
+          "value_type": "connection_ref",
+          "required": true,
+          "display_name": "Connection"
+        },
+        {
+          "name": "table",
+          "value_type": "text",
+          "required": true,
+          "display_name": "Table",
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          }
+        },
+        {
+          "name": "records",
+          "value_type": "json",
+          "required": true,
+          "display_name": "Records",
+          "schema": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 10,
+            "items": {
+              "type": "object"
+            }
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "records",
+          "value_type": "json"
+        },
+        {
+          "name": "count",
+          "value_type": "integer"
+        },
+        {
+          "name": "offset",
+          "value_type": "text"
+        }
+      ],
+      "result_fields": [
+        "result.records",
+        "result.count",
+        "result.offset"
+      ],
+      "error_codes": [
+        "invalid_payload",
+        "invalid_connection",
+        "effect_claim_required",
+        "test_mode_suppressed",
+        "provider_unavailable",
+        "invalid_provider_response",
+        "response_too_large",
+        "network_blocked",
+        "timeout",
+        "authentication_failed",
+        "not_found",
+        "conflict",
+        "rate_limited"
+      ]
+    },
+    {
+      "operation_id": "update_records",
+      "display_name": "Update Records",
+      "description": "Update Records in the configured database.",
+      "operation_kind": "action",
+      "workflow_visible": true,
+      "connection_type_ids": [
+        "airtable"
+      ],
+      "category": "data",
+      "inputs": [
+        {
+          "name": "connection_ref",
+          "value_type": "connection_ref",
+          "required": true,
+          "display_name": "Connection"
+        },
+        {
+          "name": "table",
+          "value_type": "text",
+          "required": true,
+          "display_name": "Table",
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          }
+        },
+        {
+          "name": "records",
+          "value_type": "json",
+          "required": true,
+          "display_name": "Records",
+          "schema": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 10,
+            "items": {
+              "type": "object"
+            }
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "records",
+          "value_type": "json"
+        },
+        {
+          "name": "count",
+          "value_type": "integer"
+        },
+        {
+          "name": "offset",
+          "value_type": "text"
+        }
+      ],
+      "result_fields": [
+        "result.records",
+        "result.count",
+        "result.offset"
+      ],
+      "error_codes": [
+        "invalid_payload",
+        "invalid_connection",
+        "effect_claim_required",
+        "test_mode_suppressed",
+        "provider_unavailable",
+        "invalid_provider_response",
+        "response_too_large",
+        "network_blocked",
+        "timeout",
+        "authentication_failed",
+        "not_found",
+        "conflict",
+        "rate_limited"
+      ]
+    },
+    {
+      "operation_id": "upsert_records",
+      "display_name": "Upsert Records",
+      "description": "Upsert Records in the configured database.",
+      "operation_kind": "action",
+      "workflow_visible": true,
+      "connection_type_ids": [
+        "airtable"
+      ],
+      "category": "data",
+      "inputs": [
+        {
+          "name": "connection_ref",
+          "value_type": "connection_ref",
+          "required": true,
+          "display_name": "Connection"
+        },
+        {
+          "name": "table",
+          "value_type": "text",
+          "required": true,
+          "display_name": "Table",
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          }
+        },
+        {
+          "name": "records",
+          "value_type": "json",
+          "required": true,
+          "display_name": "Records",
+          "schema": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 10,
+            "items": {
+              "type": "object"
+            }
+          }
+        },
+        {
+          "name": "merge_fields",
+          "value_type": "json",
+          "required": true,
+          "display_name": "Merge Fields",
+          "schema": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 3,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            }
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "records",
+          "value_type": "json"
+        },
+        {
+          "name": "count",
+          "value_type": "integer"
+        },
+        {
+          "name": "offset",
+          "value_type": "text"
+        }
+      ],
+      "result_fields": [
+        "result.records",
+        "result.count",
+        "result.offset"
+      ],
+      "error_codes": [
+        "invalid_payload",
+        "invalid_connection",
+        "effect_claim_required",
+        "test_mode_suppressed",
+        "provider_unavailable",
+        "invalid_provider_response",
+        "response_too_large",
+        "network_blocked",
+        "timeout",
+        "authentication_failed",
+        "not_found",
+        "conflict",
+        "rate_limited"
+      ]
+    },
+    {
+      "operation_id": "delete_records",
+      "display_name": "Delete Records",
+      "description": "Delete Records in the configured database.",
+      "operation_kind": "action",
+      "workflow_visible": true,
+      "connection_type_ids": [
+        "airtable"
+      ],
+      "category": "data",
+      "inputs": [
+        {
+          "name": "connection_ref",
+          "value_type": "connection_ref",
+          "required": true,
+          "display_name": "Connection"
+        },
+        {
+          "name": "table",
+          "value_type": "text",
+          "required": true,
+          "display_name": "Table",
+          "schema": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          }
+        },
+        {
+          "name": "record_ids",
+          "value_type": "json",
+          "required": true,
+          "display_name": "Record Ids",
+          "schema": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 10,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            }
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "records",
+          "value_type": "json"
+        },
+        {
+          "name": "count",
+          "value_type": "integer"
+        },
+        {
+          "name": "offset",
+          "value_type": "text"
+        }
+      ],
+      "result_fields": [
+        "result.records",
+        "result.count",
+        "result.offset"
+      ],
+      "error_codes": [
+        "invalid_payload",
+        "invalid_connection",
+        "effect_claim_required",
+        "test_mode_suppressed",
+        "provider_unavailable",
+        "invalid_provider_response",
+        "response_too_large",
+        "network_blocked",
+        "timeout",
+        "authentication_failed",
+        "not_found",
+        "conflict",
+        "rate_limited"
+      ]
+    }
+  ]
+}
