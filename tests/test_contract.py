@@ -362,7 +362,7 @@ def test_canonical_apache_license():
     )
 
 
-@pytest.mark.parametrize("name", ["update_records", "upsert_records"])
+@pytest.mark.parametrize("name", ["create_records", "update_records", "upsert_records"])
 @pytest.mark.parametrize("message", ["partialSuccess", "cellsRedactedDueToLimitedPermissions"])
 def test_provider_partial_success_is_ambiguous_write(name, message, network):
     response = provider_value()
@@ -372,6 +372,8 @@ def test_provider_partial_success_is_ambiguous_write(name, message, network):
     }
     network[1].return_value = Response(response)
     p = envelope(name, records=[{"id": "recABCDEFGHIJKLMN", "fields": {"Name": "hello"}}])
+    if name == "create_records":
+        del p["action"]["input"]["records"][0]["id"]
     if name == "upsert_records":
         p["action"]["input"]["merge_fields"] = ["Name"]
     r = main.handle(p)

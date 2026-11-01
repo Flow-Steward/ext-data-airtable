@@ -90,7 +90,7 @@ def prepare(name, args, config):
 
 def result(name, value, expected):
     require(isinstance(value, dict), "Invalid provider envelope.", code="invalid_provider_response")
-    if name in {"update_records", "upsert_records"} and "details" in value:
+    if name in {"create_records", "update_records", "upsert_records"} and "details" in value:
         details = value["details"]
         require(
             isinstance(details, dict)

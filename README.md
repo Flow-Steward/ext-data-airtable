@@ -20,7 +20,7 @@ Connection config: `base_id` (`app` plus 14 alphanumerics), optional `request_ti
 
 Uses fixed `https://api.airtable.com/v0/{base_id}/{table}`. CRUD covers records, not base schema management.
 
-Official API contracts checked 2026-11-01: [list](https://airtable.com/developers/web/api/list-records.md), [create](https://airtable.com/developers/web/api/create-records.md), [update/upsert](https://airtable.com/developers/web/api/update-multiple-records.md), [delete](https://airtable.com/developers/web/api/delete-multiple-records.md). Upsert uses PATCH `performUpsert.fieldsToMergeOn`. HTTP-200 `details.partialSuccess` and permission-redacted write results fail with `partial_write`, a sanitized enum-only `provider_details`, and `timeout_unknown`; the adapter does not silently claim a completed update.
+Official API contracts checked 2026-11-01: [list](https://airtable.com/developers/web/api/list-records.md), [create](https://airtable.com/developers/web/api/create-records.md), [update/upsert](https://airtable.com/developers/web/api/update-multiple-records.md), [delete](https://airtable.com/developers/web/api/delete-multiple-records.md). Upsert uses PATCH `performUpsert.fieldsToMergeOn`. HTTP-200 `details.partialSuccess` and permission-redacted write results fail with `partial_write`, a sanitized enum-only `provider_details`, and `timeout_unknown`; the adapter does not silently claim a completed create, update or upsert.
 
 ## Verification and release
 
