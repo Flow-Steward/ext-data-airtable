@@ -5,11 +5,11 @@
     "data_migrations": []
   },
   "extension_id": "flowsteward.airtable",
-  "release_version": "1.0.1",
+  "release_version": "1.0.2",
   "extension_type": "service_extension",
   "identity": {
     "display_name": "Airtable",
-    "description": "Airtable bounded table record REST reads and writes.",
+    "description": "Connect Airtable tables to Flow Steward workflows for record lookup, data collection and synchronization. Read an individual record by its Airtable ID, or list a table with an optional formula filter. Create new records, patch existing records, merge records using one to three matching fields, and delete records by ID. Actions work directly with the selected base and table, using your existing Airtable record identifiers and field values.\n\nCombine record reads with later workflow steps to look up customer details, collect items for processing or update the status of completed work. Upserts let a workflow match records on business fields instead of looking up every record ID first. Listing returns one page of up to 100 records and an offset for the next request; create, update, upsert and delete actions accept up to ten records per call.\n\nConfigure a base and a personal access token with access to it. Field values must already match the Airtable types, since automatic type conversion is not requested. This connector manages table records rather than base schemas and provides no webhooks, triggers or real-time subscriptions.",
     "tags": [
       "airtable",
       "database",
