@@ -1,5 +1,7 @@
 # Airtable workflow extension
 
+See [Workflow action guide](docs/workflow-actions.md) for action selection, setup requirements and JSON field examples.
+
 Connect Airtable tables to Flow Steward workflows for record lookup, data collection and synchronization. Read an individual record by its Airtable ID, or list a table with an optional formula filter. Create new records, patch existing records, merge records using one to three matching fields, and delete records by ID. Actions work directly with the selected base and table, using your existing Airtable record identifiers and field values.
 
 Combine record reads with later workflow steps to look up customer details, collect items for processing or update the status of completed work. Upserts let a workflow match records on business fields instead of looking up every record ID first. Listing returns one page of up to 100 records and an offset for the next request; create, update, upsert and delete actions accept up to ten records per call.
@@ -45,14 +47,14 @@ Pushes to `main` and pull requests run the shared extension build workflow. The 
 After the versioned release commit is on `main`, publish by pushing its version tag:
 
 ```sh
-git tag v1.0.3
-git push origin v1.0.3
+git tag v1.0.4
+git push origin v1.0.4
 ```
 
 The release workflow runs the shared checks, builds the target archives and publishes the GitHub release and checksums. Do not move an existing tag. To rerun a release for an existing tag, dispatch the same workflow:
 
 ```sh
-gh workflow run release.yml --repo Flow-Steward/ext-data-airtable --ref main -f tag=v1.0.3
+gh workflow run release.yml --repo Flow-Steward/ext-data-airtable --ref main -f tag=v1.0.4
 ```
 
 The manifest, descriptor (when present), package version and tag must identify the same release. Release publication uses the workflow token; no additional repository secret is required by these callers.

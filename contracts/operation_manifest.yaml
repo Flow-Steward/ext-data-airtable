@@ -2,8 +2,8 @@
   "operations": [
     {
       "operation_id": "list_records",
-      "display_name": "List Records",
-      "description": "List Records in the configured database.",
+      "display_name": "List a page of table records",
+      "description": "Read up to 100 Airtable records, optionally matching a formula. Pass the returned offset to another call to read the next page.",
       "operation_kind": "action",
       "workflow_visible": true,
       "connection_type_ids": [
@@ -15,13 +15,13 @@
           "name": "connection_ref",
           "value_type": "connection_ref",
           "required": true,
-          "display_name": "Connection"
+          "display_name": "Project connection"
         },
         {
           "name": "table",
           "value_type": "text",
           "required": true,
-          "display_name": "Table",
+          "display_name": "Table name or ID",
           "schema": {
             "type": "string",
             "minLength": 1,
@@ -32,7 +32,7 @@
           "name": "page_size",
           "value_type": "integer",
           "required": false,
-          "display_name": "Page Size",
+          "display_name": "Records per page",
           "schema": {
             "type": "integer",
             "minimum": 1,
@@ -44,7 +44,7 @@
           "name": "offset",
           "value_type": "text",
           "required": false,
-          "display_name": "Offset",
+          "display_name": "Next-page offset",
           "schema": {
             "type": "string",
             "maxLength": 4096
@@ -54,7 +54,7 @@
           "name": "filter_by_formula",
           "value_type": "text",
           "required": false,
-          "display_name": "Filter By Formula",
+          "display_name": "Airtable formula filter",
           "schema": {
             "type": "string",
             "maxLength": 8192
@@ -99,8 +99,8 @@
     },
     {
       "operation_id": "get_record",
-      "display_name": "Get Record",
-      "description": "Get Record in the configured database.",
+      "display_name": "Read a record by Airtable ID",
+      "description": "Read one record from the selected table using its rec-prefixed Airtable record ID.",
       "operation_kind": "action",
       "workflow_visible": true,
       "connection_type_ids": [
@@ -112,13 +112,13 @@
           "name": "connection_ref",
           "value_type": "connection_ref",
           "required": true,
-          "display_name": "Connection"
+          "display_name": "Project connection"
         },
         {
           "name": "table",
           "value_type": "text",
           "required": true,
-          "display_name": "Table",
+          "display_name": "Table name or ID",
           "schema": {
             "type": "string",
             "minLength": 1,
@@ -129,7 +129,7 @@
           "name": "record_id",
           "value_type": "text",
           "required": true,
-          "display_name": "Record Id",
+          "display_name": "Airtable record ID",
           "schema": {
             "type": "string",
             "minLength": 1,
@@ -175,8 +175,8 @@
     },
     {
       "operation_id": "create_records",
-      "display_name": "Create Records",
-      "description": "Create Records in the configured database.",
+      "display_name": "Create new table records",
+      "description": "Create 1–10 records with field values. Airtable assigns their record IDs; use Update or Create or update to change existing records.",
       "operation_kind": "action",
       "workflow_visible": true,
       "connection_type_ids": [
@@ -188,13 +188,13 @@
           "name": "connection_ref",
           "value_type": "connection_ref",
           "required": true,
-          "display_name": "Connection"
+          "display_name": "Project connection"
         },
         {
           "name": "table",
           "value_type": "text",
           "required": true,
-          "display_name": "Table",
+          "display_name": "Table name or ID",
           "schema": {
             "type": "string",
             "minLength": 1,
@@ -205,7 +205,7 @@
           "name": "records",
           "value_type": "json",
           "required": true,
-          "display_name": "Records",
+          "display_name": "Records and field values (JSON)",
           "schema": {
             "type": "array",
             "minItems": 1,
@@ -254,8 +254,8 @@
     },
     {
       "operation_id": "update_records",
-      "display_name": "Update Records",
-      "description": "Update Records in the configured database.",
+      "display_name": "Update records by Airtable ID",
+      "description": "Patch field values on 1–10 existing records. Each record must include its Airtable ID; omitted fields are preserved.",
       "operation_kind": "action",
       "workflow_visible": true,
       "connection_type_ids": [
@@ -267,13 +267,13 @@
           "name": "connection_ref",
           "value_type": "connection_ref",
           "required": true,
-          "display_name": "Connection"
+          "display_name": "Project connection"
         },
         {
           "name": "table",
           "value_type": "text",
           "required": true,
-          "display_name": "Table",
+          "display_name": "Table name or ID",
           "schema": {
             "type": "string",
             "minLength": 1,
@@ -284,7 +284,7 @@
           "name": "records",
           "value_type": "json",
           "required": true,
-          "display_name": "Records",
+          "display_name": "Records and field values (JSON)",
           "schema": {
             "type": "array",
             "minItems": 1,
@@ -333,8 +333,8 @@
     },
     {
       "operation_id": "upsert_records",
-      "display_name": "Upsert Records",
-      "description": "Upsert Records in the configured database.",
+      "display_name": "Create or update matching records",
+      "description": "Save 1–10 records using their Airtable IDs or 1–3 merge fields to match existing records. Unmatched records are created.",
       "operation_kind": "action",
       "workflow_visible": true,
       "connection_type_ids": [
@@ -346,13 +346,13 @@
           "name": "connection_ref",
           "value_type": "connection_ref",
           "required": true,
-          "display_name": "Connection"
+          "display_name": "Project connection"
         },
         {
           "name": "table",
           "value_type": "text",
           "required": true,
-          "display_name": "Table",
+          "display_name": "Table name or ID",
           "schema": {
             "type": "string",
             "minLength": 1,
@@ -363,7 +363,7 @@
           "name": "records",
           "value_type": "json",
           "required": true,
-          "display_name": "Records",
+          "display_name": "Records and field values (JSON)",
           "schema": {
             "type": "array",
             "minItems": 1,
@@ -377,7 +377,7 @@
           "name": "merge_fields",
           "value_type": "json",
           "required": true,
-          "display_name": "Merge Fields",
+          "display_name": "Fields used to match existing records (JSON)",
           "schema": {
             "type": "array",
             "minItems": 1,
@@ -428,8 +428,8 @@
     },
     {
       "operation_id": "delete_records",
-      "display_name": "Delete Records",
-      "description": "Delete Records in the configured database.",
+      "display_name": "Delete records by Airtable ID",
+      "description": "Delete 1–10 exact record IDs from the selected table. Supply record IDs returned by a read or create action.",
       "operation_kind": "action",
       "workflow_visible": true,
       "connection_type_ids": [
@@ -441,13 +441,13 @@
           "name": "connection_ref",
           "value_type": "connection_ref",
           "required": true,
-          "display_name": "Connection"
+          "display_name": "Project connection"
         },
         {
           "name": "table",
           "value_type": "text",
           "required": true,
-          "display_name": "Table",
+          "display_name": "Table name or ID",
           "schema": {
             "type": "string",
             "minLength": 1,
@@ -458,7 +458,7 @@
           "name": "record_ids",
           "value_type": "json",
           "required": true,
-          "display_name": "Record Ids",
+          "display_name": "Airtable record IDs to delete (JSON)",
           "schema": {
             "type": "array",
             "minItems": 1,

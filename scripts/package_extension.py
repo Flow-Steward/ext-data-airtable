@@ -14,7 +14,7 @@ import zipfile
 from pathlib import Path
 
 EXTENSION_ID = "flowsteward.airtable"
-VERSION = "1.0.3"
+VERSION = "1.0.4"
 TOP_FOLDER = "flowsteward_airtable"
 SOURCE_DATE_EPOCH = 1779400183
 MAX_ARCHIVE_BYTES = 50 * 1024 * 1024

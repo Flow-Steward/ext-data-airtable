@@ -2,127 +2,157 @@
   "forms": [
     {
       "operation_id": "list_records",
-      "title": "List Records",
+      "title": "List a page of table records",
       "fields": [
         {
           "name": "table",
           "widget_type": "textarea",
-          "label": "Table",
-          "required": true
+          "label": "Table name or ID",
+          "required": true,
+          "help_text": "Table in the base configured on the connection. Use the table name or Airtable tbl-prefixed table ID.",
+          "placeholder": "Orders"
         },
         {
           "name": "page_size",
           "widget_type": "integer",
-          "label": "Page Size",
-          "required": false
+          "label": "Records per page",
+          "required": false,
+          "help_text": "Read 1–100 records per call (default 100). Use the returned offset to continue.",
+          "placeholder": "100"
         },
         {
           "name": "offset",
           "widget_type": "textarea",
-          "label": "Offset",
-          "required": false
+          "label": "Next-page offset",
+          "required": false,
+          "help_text": "For the first page omit this field. For another page, copy result.offset from the previous List call without modifying it.",
+          "placeholder": "itrExample/recABCDEFGHIJKLMN"
         },
         {
           "name": "filter_by_formula",
           "widget_type": "textarea",
-          "label": "Filter By Formula",
-          "required": false
+          "label": "Airtable formula filter",
+          "required": false,
+          "help_text": "Optional Airtable formula evaluated for each record. Only records with a truthy formula result are returned.",
+          "placeholder": "{Status}=\"Approved\""
         }
       ]
     },
     {
       "operation_id": "get_record",
-      "title": "Get Record",
+      "title": "Read a record by Airtable ID",
       "fields": [
         {
           "name": "table",
           "widget_type": "textarea",
-          "label": "Table",
-          "required": true
+          "label": "Table name or ID",
+          "required": true,
+          "help_text": "Table in the base configured on the connection. Use the table name or Airtable tbl-prefixed table ID.",
+          "placeholder": "Orders"
         },
         {
           "name": "record_id",
           "widget_type": "textarea",
-          "label": "Record Id",
-          "required": true
+          "label": "Airtable record ID",
+          "required": true,
+          "help_text": "Use the rec-prefixed record ID returned by Airtable, not a field value or row number.",
+          "placeholder": "recABCDEFGHIJKLMN"
         }
       ]
     },
     {
       "operation_id": "create_records",
-      "title": "Create Records",
+      "title": "Create new table records",
       "fields": [
         {
           "name": "table",
           "widget_type": "textarea",
-          "label": "Table",
-          "required": true
+          "label": "Table name or ID",
+          "required": true,
+          "help_text": "Table in the base configured on the connection. Use the table name or Airtable tbl-prefixed table ID.",
+          "placeholder": "Orders"
         },
         {
           "name": "records",
           "widget_type": "json",
-          "label": "Records",
-          "required": true
+          "label": "Records and field values (JSON)",
+          "required": true,
+          "help_text": "Array of 1–10 objects with a nonempty fields object. Airtable assigns IDs to new records.",
+          "placeholder": "[{\"fields\":{\"Order ID\":\"order_1042\",\"Status\":\"Approved\"}}]"
         }
       ]
     },
     {
       "operation_id": "update_records",
-      "title": "Update Records",
+      "title": "Update records by Airtable ID",
       "fields": [
         {
           "name": "table",
           "widget_type": "textarea",
-          "label": "Table",
-          "required": true
+          "label": "Table name or ID",
+          "required": true,
+          "help_text": "Table in the base configured on the connection. Use the table name or Airtable tbl-prefixed table ID.",
+          "placeholder": "Orders"
         },
         {
           "name": "records",
           "widget_type": "json",
-          "label": "Records",
-          "required": true
+          "label": "Records and field values (JSON)",
+          "required": true,
+          "help_text": "Array of 1–10 objects, each with an existing rec-prefixed id and a nonempty fields object. Only supplied fields change.",
+          "placeholder": "[{\"fields\":{\"Order ID\":\"order_1042\",\"Status\":\"Approved\"},\"id\":\"recABCDEFGHIJKLMN\"}]"
         }
       ]
     },
     {
       "operation_id": "upsert_records",
-      "title": "Upsert Records",
+      "title": "Create or update matching records",
       "fields": [
         {
           "name": "table",
           "widget_type": "textarea",
-          "label": "Table",
-          "required": true
+          "label": "Table name or ID",
+          "required": true,
+          "help_text": "Table in the base configured on the connection. Use the table name or Airtable tbl-prefixed table ID.",
+          "placeholder": "Orders"
         },
         {
           "name": "records",
           "widget_type": "json",
-          "label": "Records",
-          "required": true
+          "label": "Records and field values (JSON)",
+          "required": true,
+          "help_text": "Array of 1–10 objects with nonempty fields. Include an existing id or every configured merge field. Unmatched records are created.",
+          "placeholder": "[{\"fields\":{\"Order ID\":\"order_1042\",\"Status\":\"Approved\"}}]"
         },
         {
           "name": "merge_fields",
           "widget_type": "json",
-          "label": "Merge Fields",
-          "required": true
+          "label": "Fields used to match existing records (JSON)",
+          "required": true,
+          "help_text": "Array of 1–3 Airtable field names. Include all merge-field values in each record without an explicit ID; unmatched values create records.",
+          "placeholder": "[\"Order ID\"]"
         }
       ]
     },
     {
       "operation_id": "delete_records",
-      "title": "Delete Records",
+      "title": "Delete records by Airtable ID",
       "fields": [
         {
           "name": "table",
           "widget_type": "textarea",
-          "label": "Table",
-          "required": true
+          "label": "Table name or ID",
+          "required": true,
+          "help_text": "Table in the base configured on the connection. Use the table name or Airtable tbl-prefixed table ID.",
+          "placeholder": "Orders"
         },
         {
           "name": "record_ids",
           "widget_type": "json",
-          "label": "Record Ids",
-          "required": true
+          "label": "Airtable record IDs to delete (JSON)",
+          "required": true,
+          "help_text": "Array of 1–10 distinct rec-prefixed record IDs. These records will be deleted from the selected table.",
+          "placeholder": "[\"recABCDEFGHIJKLMN\"]"
         }
       ]
     }
