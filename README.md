@@ -38,7 +38,7 @@ Tests use mocked pinned HTTP and validate CRUD requests, pagination, input limit
 
 From a Flow Steward checkout run `lint.sh --checks extension-static,extension-tests --extension-root <checkout>` in the disposable audit container. Development dependencies install offline from SDK dev wheels plus audit image site packages.
 
-Build `python scripts/package_extension.py --runtime-target linux-amd64` and again with `linux-arm64`. Both deterministic pure Python ZIPs contain `.fs-package.yaml` with only `runtime_target`; `native_executable` is omitted. Source is architecture independent. Archive checksums accompany releases.
+From a clean Git checkout of the reviewed release commit, build `python scripts/package_extension.py --runtime-target linux-amd64` and again with `linux-arm64`. The packager reads the approved release files from the commit and rejects unexpected checkout files. Both deterministic pure Python ZIPs contain `.fs-package.yaml` with only `runtime_target`. Archive checksums accompany releases.
 
 ## Automated CI and releases
 

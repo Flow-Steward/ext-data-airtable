@@ -182,6 +182,24 @@ def test_mixed_dns_blocked(network):
     network[1].assert_not_called()
 
 
+@pytest.mark.parametrize(
+    "address", ["fec0::1", "ff02::1", "ff0e::1", "224.0.0.1", "::ffff:8.8.8.8", "2002::1"]
+)
+def test_non_unicast_or_transition_dns_is_blocked(address, network):
+    network[0].return_value = ["1.1.1.1", address]
+
+    assert main.handle(envelope())["error_code"] == "network_blocked"
+    network[1].assert_not_called()
+
+
+def test_globally_routable_unicast_dns_is_pinned(network):
+    addresses = ("1.1.1.1", "2606:4700:4700::1111")
+    network[0].return_value = addresses
+
+    assert main.handle(envelope())["ok"]
+    assert network[1].call_args.kwargs["pinned_ips"] == addresses
+
+
 @pytest.mark.parametrize("status", [401, 429, 500])
 def test_http_no_retry_unknown_write(status, network):
     network[1].side_effect = HTTPError(

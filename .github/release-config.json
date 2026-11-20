@@ -10,7 +10,8 @@
     "requirements-dev.txt"
   ],
   "test_paths": [
-    "tests/test_contract.py"
+    "tests/test_contract.py",
+    "tests/test_package.py"
   ],
   "additional_assets": [],
   "payload_sources": []

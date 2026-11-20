@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.7 - 2026-11-20
+
+- Limit release archives to reviewed source from the committed Git revision and reject unexpected local files.
+- Reject DNS answers outside globally routable unicast before the provider request.
+
 ## 1.0.6 - 2026-11-15
 
 ### Added

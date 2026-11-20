@@ -10,6 +10,29 @@ from provider import KIND
 from validation import Failure, require
 
 
+def _is_public_unicast(ip):
+    address = ipaddress.ip_address(ip)
+    if not address.is_global or any(
+        (
+            address.is_multicast,
+            address.is_reserved,
+            address.is_unspecified,
+            address.is_loopback,
+            address.is_link_local,
+        )
+    ):
+        return False
+    if isinstance(address, ipaddress.IPv6Address):
+        return not (
+            address.is_site_local
+            or address.scope_id is not None
+            or address.ipv4_mapped is not None
+            or address.sixtofour is not None
+            or address.teredo is not None
+        )
+    return True
+
+
 class Transport:
     def __init__(self, config, secrets):
         self.config, self.secrets = config, secrets
@@ -23,7 +46,7 @@ class Transport:
         try:
             ips = tuple(resolve_pinned_ips(self.host, port=443, purpose=KIND + " API"))
             require(
-                bool(ips) and all(ipaddress.ip_address(ip).is_global for ip in ips),
+                bool(ips) and all(_is_public_unicast(ip) for ip in ips),
                 "Provider DNS is blocked.",
                 code="network_blocked",
             )
