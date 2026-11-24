@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.8 - 2026-11-24
+
+- Update development PyYAML to 6.0.4.
+
 ## 1.0.7 - 2026-11-20
 
 - Limit release archives to reviewed source from the committed Git revision and reject unexpected local files.
